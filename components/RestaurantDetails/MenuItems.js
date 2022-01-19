@@ -2,6 +2,7 @@ import React from "react";
 import { StyleSheet, Text, View, Image, ScrollView } from "react-native";
 import Divider from "react-native-divider";
 import BouncyCheckbox from "react-native-bouncy-checkbox";
+import { useDispatch } from "react-redux";
 
 //fake data
 const foods = [
@@ -22,29 +23,44 @@ const foods = [
   },
   {
     image:
-      "https://cdn.pixabay.com/photo/2017/03/23/19/57/asparagus-2169305_960_720.jpg",
-    title: "Steak",
-    description: "A steak is a meat generally sliced across the muscle fibers.",
-    price: "$30",
+      "https://cdn.pixabay.com/photo/2017/01/11/11/33/cake-1971552_960_720.jpg",
+    title: "Cake",
+    description:
+      "Cake is a form of sweet food made from flour, sugar, and other ingredients, that is usually baked.",
+    price: "$12",
   },
   {
     image:
-      "https://cdn.pixabay.com/photo/2017/03/23/19/57/asparagus-2169305_960_720.jpg",
-    title: "Steakhhhhhh",
-    description: "A steak is a meat generally sliced across the muscle fibers.",
-    price: "$30",
+      "https://cdn.pixabay.com/photo/2016/03/05/19/02/hamburger-1238246_960_720.jpg",
+    title: "Cheese Burger",
+    description: "A cheeseburger is a hamburger topped with cheese. ",
+    price: "$15",
   },
   {
     image:
-      "https://cdn.pixabay.com/photo/2017/03/23/19/57/asparagus-2169305_960_720.jpg",
-    title: "Steak",
-    description: "A steak is a meat generally sliced across the muscle fibers.",
-    price: "$30",
+      "https://cdn.pixabay.com/photo/2014/08/14/14/21/shish-kebab-417994_960_720.jpg",
+    title: "Shish kebab",
+    description:
+      "Shish kebab is a popular meal of skewered and grilled cubes of meat.",
+    price: "$18",
   },
 ];
 
 //main function
-export default function MenuItems() {
+export default function MenuItems({ restaurantName }) {
+  const dispatch = useDispatch();
+
+  const selectItem = (items, checkboxValue) => {
+    dispatch({
+      type: "ADD_TO_CARD",
+      payload: {
+        ...items,
+        restaurantName: restaurantName,
+        checkboxValue: checkboxValue,
+      },
+    });
+  };
+
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
       {foods.map((food, index) => (
@@ -53,14 +69,12 @@ export default function MenuItems() {
             <BouncyCheckbox
               iconStyle={{ borderColor: "lightGray", borderRadius: 20 }}
               fillColor="green"
+              onPress={(checkboxValue) => selectItem(food, checkboxValue)}
             />
             <FoodInfo food={food} />
             <FoodImage food={food} />
           </View>
-          <Divider
-            width={1}
-            style={{ marginHorizontal: 30 }}
-          />
+          <Divider width={1} style={{ marginHorizontal: 30 }} />
         </View>
       ))}
     </ScrollView>

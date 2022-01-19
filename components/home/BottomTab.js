@@ -35,12 +35,12 @@ const bottomData = [
 export default function BottomTab() {
   return (
     <View style={styles.bottomTab}>
-        {bottomData.map((data, index) =>(
-             <TouchableOpacity key={index}>
-               <FontAwesomeIcon style={styles.icon} size={25}  icon={data.icon} />
-               <Text>{data.text}</Text>
-             </TouchableOpacity>
-        ))}
+      {bottomData.map((data, index) => (
+        <TouchableOpacity key={index}>
+          <FontAwesomeIcon style={styles.icon} size={25} icon={data.icon} />
+          <Text>{data.text}</Text>
+        </TouchableOpacity>
+      ))}
     </View>
   );
 }
