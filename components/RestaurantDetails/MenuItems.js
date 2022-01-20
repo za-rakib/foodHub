@@ -1,8 +1,8 @@
-import React from "react";
+import React,{useState} from "react";
 import { StyleSheet, Text, View, Image, ScrollView } from "react-native";
 import Divider from "react-native-divider";
 import BouncyCheckbox from "react-native-bouncy-checkbox";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 //fake data
 const foods = [
@@ -11,7 +11,7 @@ const foods = [
       "https://cdn.pixabay.com/photo/2017/03/23/19/57/asparagus-2169305_960_720.jpg",
     title: "Steak",
     description: "A steak is a meat generally sliced across the muscle fibers.",
-    price: "$30",
+    price: "$30.50",
   },
   {
     image:
@@ -19,7 +19,7 @@ const foods = [
     title: "Pizza",
     description:
       "A flat, open-faced baked pie of Italian origin, consisting of a thin layer of bread",
-    price: "$20",
+    price: "$20.25",
   },
   {
     image:
@@ -27,14 +27,14 @@ const foods = [
     title: "Cake",
     description:
       "Cake is a form of sweet food made from flour, sugar, and other ingredients, that is usually baked.",
-    price: "$12",
+    price: "$12.50",
   },
   {
     image:
       "https://cdn.pixabay.com/photo/2016/03/05/19/02/hamburger-1238246_960_720.jpg",
     title: "Cheese Burger",
     description: "A cheeseburger is a hamburger topped with cheese. ",
-    price: "$15",
+    price: "$15.75",
   },
   {
     image:
@@ -60,7 +60,14 @@ export default function MenuItems({ restaurantName }) {
       },
     });
   };
+  const cartItems = useSelector(
+    (state) => state.cartReducer.selectedItems.items
+  );
 
+  //console.log("Card Item", cartItems);
+
+  const isFoodInCart = (food, cartItems) =>
+    Boolean(cartItems.find((item) => item.title === food.title));
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
       {foods.map((food, index) => (
@@ -70,6 +77,7 @@ export default function MenuItems({ restaurantName }) {
               iconStyle={{ borderColor: "lightGray", borderRadius: 20 }}
               fillColor="green"
               onPress={(checkboxValue) => selectItem(food, checkboxValue)}
+              isChecked={isFoodInCart(food, cartItems)}
             />
             <FoodInfo food={food} />
             <FoodImage food={food} />
