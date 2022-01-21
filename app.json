@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "FoodHub",
-    "slug": "FoodHub",
+    "name": "Food Hub",
+    "slug": "food-hub",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
