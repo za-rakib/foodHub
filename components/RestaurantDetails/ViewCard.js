@@ -4,12 +4,14 @@ import { useSelector } from "react-redux";
 import OrderItem from "./OrderItem";
 import { db } from "../../firebase";
 import { collection, doc, setDoc, Timestamp } from "firebase/firestore";
+import LottieView from "lottie-react-native";
 import { LogBox } from "react-native";
 LogBox.ignoreLogs(["Setting a timer"]);
 
+// main function
 export default function ViewCard({ navigation }) {
   const [modalVisible, setModalVisible] = useState(false);
-
+   const [loading, setLoading] = useState(false);
   //  data read from store
   const { items, restaurantName } = useSelector(
     (state) => state.cartReducer.selectedItems
@@ -18,17 +20,22 @@ export default function ViewCard({ navigation }) {
     .map((item) => Number(item.price.replace("$", "")))
     .reduce((sum, item) => sum + item, 0);
 
-  // firebase
+  // firebase data add
   const addOrderToFirebase = async () => {
+     setLoading(true);
     const newCityRef = doc(collection(db, "orders"));
     const ordersData = {
       items: items,
       restaurantName: restaurantName,
       createAt: Timestamp.fromDate(new Date()),
-    };
-    await setDoc(newCityRef, ordersData);
-    setModalVisible(false);
-    navigate.navigate("OrderCompleted");
+    }
+    await setDoc(newCityRef, ordersData).then(() => {
+        setTimeout(() => {
+          setLoading(false);
+          navigation.navigate("OrderCompleted");
+        }, 2500);
+      });
+
   };
 
   // modal checkout
@@ -48,7 +55,10 @@ export default function ViewCard({ navigation }) {
             <View style={styles.checkOutButtonContainer}>
               <TouchableOpacity
                 style={styles.checkOutButton}
-                onPress={() => addOrderToFirebase()}
+                onPress={() => {
+                  addOrderToFirebase();
+                  setModalVisible(false);
+                }}
               >
                 <Text style={styles.checkOutButtonText}>Checkout</Text>
                 <Text style={styles.checkOutButtonPrice}>
@@ -84,6 +94,20 @@ export default function ViewCard({ navigation }) {
             </TouchableOpacity>
           </View>
         </View>
+      ) : (
+        <></>
+      )}
+      {loading ? (
+        <>
+          <View style={styles.loading}>
+            <LottieView
+              style={{ height: 200 }}
+              source={require("../../assets/animations/scanner.json")}
+              autoPlay
+              space={3}
+            />
+          </View>
+        </>
       ) : (
         <></>
       )}
@@ -124,7 +148,6 @@ const styles = StyleSheet.create({
     fontSize: 20,
     marginRight: 20,
   },
-
   modalContainer: {
     flex: 1,
     justifyContent: "flex-end",
@@ -183,5 +206,14 @@ const styles = StyleSheet.create({
     fontSize: 20,
     position: "absolute",
     right: 35,
+  },
+  loading: {
+    backgroundColor: "black",
+    position: "absolute",
+    opacity: 0.6,
+    justifyContent: "center",
+    alignItems: "center",
+    height: "100%",
+    width: "100%",
   },
 });
