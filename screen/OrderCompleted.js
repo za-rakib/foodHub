@@ -1,4 +1,4 @@
-import { ScrollView, StyleSheet, Text, View } from "react-native";
+import { Button, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -6,8 +6,11 @@ import LottieView from "lottie-react-native";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "../firebase";
 import MenuItems from "../components/RestaurantDetails/MenuItems";
+import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 
-export default function OrderCompleted() {
+import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
+
+export default function OrderCompleted({ navigation }) {
   const [lastOrder, setLastOrder] = useState({
     items: [
       {
@@ -95,6 +98,15 @@ export default function OrderCompleted() {
               speed={0.5}
             />
           </ScrollView>
+          <TouchableOpacity style={styles.backButton}>
+            <FontAwesomeIcon style={styles.icon} size={25} icon={faArrowLeft} />
+            <Button
+              style={styles.button}
+              title="Go To Home"
+              onPress={() => navigation.navigate("Home")}
+              color="#f194ff"
+            />
+          </TouchableOpacity>
         </View>
       </SafeAreaView>
     </>
@@ -119,7 +131,6 @@ const styles = StyleSheet.create({
   animationTwo: {
     height: 200,
     alignSelf: "center",
-    marginBottom: 20,
     justifyContent: "center",
   },
   text: {
@@ -128,5 +139,18 @@ const styles = StyleSheet.create({
   },
   menuItems: {
     marginTop: 30,
+  },
+  backButton: {
+    marginBottom: 40,
+    flexDirection: "row",
+  },
+  button: {
+    height: 40,
+    width: 100,
+  },
+  icon: {
+    color:"#f194ff",
+   marginEnd:10,
+   marginTop:5
   },
 });

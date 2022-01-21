@@ -2,6 +2,7 @@
   "expo": {
     "name": "Food Hub",
     "slug": "food-hub",
+    "description": "You can order here your favorite food..",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -23,7 +24,8 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
-      }
+      },
+      "package": "com.zarakib.foodhub"
     },
     "web": {
       "favicon": "./assets/favicon.png"

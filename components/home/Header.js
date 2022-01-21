@@ -45,5 +45,6 @@ const styles = StyleSheet.create({
   header: {
     flexDirection: "row",
     alignSelf: "center",
+    paddingTop:30,
   },
 });

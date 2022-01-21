@@ -49,6 +49,7 @@ export default function Home({ navigation }) {
           restaurantsData={restaurantsData}
           searchValue={searchValue}
           navigation={navigation}
+          setSearchValue={setSearchValue}
         />
       </ScrollView>
       {/* <Divider width={1} /> */}
@@ -65,6 +66,5 @@ const styles = StyleSheet.create({
   header: {
     backgroundColor: "#fff",
     padding: 13,
-    marginTop: 40,
   },
 });

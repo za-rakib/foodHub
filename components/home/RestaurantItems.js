@@ -47,6 +47,7 @@ export default function RestaurantItems({
   restaurantsData,
   searchValue,
   navigation,
+  setSearchValue,
 }) {
   return (
     <>
@@ -65,7 +66,7 @@ export default function RestaurantItems({
             key={index}
             activeOpacity={1}
             style={styles.container}
-            onPress={() =>
+            onPress={() => {
               navigation.navigate("RestaurantDetails", {
                 name: restaurant.name,
                 image: restaurant.image_url,
@@ -73,8 +74,9 @@ export default function RestaurantItems({
                 reviews: restaurant.review_count,
                 rating: restaurant.rating,
                 categories: restaurant.categories,
-              })
+              });
             }
+        }
           >
             <RestaurantImage image={restaurant.image_url} />
             <RestaurantInfo name={restaurant.name} rating={restaurant.rating} />
